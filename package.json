@@ -1,0 +1,38 @@
+{
+  "name": "apiparking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest  --verbose --silent --detectOpenHandles",
+    "test:watch": "npm run test -- --watchAll",
+    "test:coverage": "npm run test -- --coverage"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuri1998dark/ApiParking.git"
+  },
+  "keywords": [],
+  "author": "@yuri1998dark",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuri1998dark/ApiParking/issues"
+  },
+  "homepage": "https://github.com/yuri1998dark/ApiParking#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.1.1",
+    "sequelize": "^6.36.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "supertest": "^6.3.4"
+  }
+}
