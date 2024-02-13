@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import {sequelize} from "./config/config.js"
 
 export class Server {
   constructor() {
@@ -11,6 +12,7 @@ export class Server {
       reservations: "/parking/reservations",
       users: "/parking/users",
     };
+  
   }
 
   middlewares() {
@@ -18,6 +20,15 @@ export class Server {
     this.app.use(cors());
     // body parsing
     this.app.use(express.json());
+  }
+
+  async dbConnection(){
+    try {
+      await sequelize.sync();
+      console.log("Connection has been established successfully.");
+    } catch (error) {
+      console.error("Unable to connect to the database:", error);
+    }
   }
 
   listen() {
