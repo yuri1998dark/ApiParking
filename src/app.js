@@ -1,6 +1,10 @@
 import express from "express";
 import cors from "cors";
-import {sequelize} from "./config/config.js"
+import './models/sequelize/User.js';
+import './models/sequelize/Reservation.js'
+import './models/sequelize/Place.js'
+import { sequelize } from "./config/config.js";
+
 
 export class Server {
   constructor() {
@@ -13,6 +17,9 @@ export class Server {
       users: "/parking/users",
     };
   
+  this.middlewares();
+
+  this.dbConnection();
   }
 
   middlewares() {
@@ -23,12 +30,13 @@ export class Server {
   }
 
   async dbConnection(){
-    try {
-      await sequelize.sync();
-      console.log("Connection has been established successfully.");
-    } catch (error) {
-      console.error("Unable to connect to the database:", error);
-    }
+    await sequelize.sync({force: true,alter:true })
+        .then(() => {
+          console.log("Synced parkingDB.");
+        })
+        .catch((err) => {
+          console.log("Failed to sync db: " + err.message);
+        });
   }
 
   listen() {

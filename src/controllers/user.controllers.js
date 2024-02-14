@@ -1,10 +1,10 @@
-import { User } from "../models/user.js";
+import { User } from "../models/sequelize/User.js";
 
 
 export const getUser= async (req, res) => {
-    const allProjects = await Project.findAll();
+    const allUsers = await User.findAll();
   
-    res.json(allProjects);
+    res.json(allUsers);
   };
 
   export const createUser= async (req, res) => {

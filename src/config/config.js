@@ -1,11 +1,8 @@
 import { Sequelize } from "sequelize";
 
-
-const sequelize = new Sequelize("parking", "parkingAdministrator", "parkingGuajiritos123!@#", {
-  host: "localhost",
-  dialect: "mysql",
+export const sequelize = new Sequelize("parking", "postgres", "ubu12345*+", {
+  host: "127.0.0.1",
+  dialect: "postgres",
 });
 
 
-
-export {sequelize}

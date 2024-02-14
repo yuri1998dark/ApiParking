@@ -1,8 +1,9 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../database/database.js";
+import { sequelize } from "../../config/config.js";
+import { Reservation } from "./Reservation.js";
 // import { Task } from "./Task.js";
 
-export const User = sequelize.define("user", {
+export const User = sequelize.define("users", {
   id: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -33,13 +34,13 @@ export const User = sequelize.define("user", {
   },
 });
 
-/* Project.hasMany(Task,{
-    foreignKey:'projectid',
+User.hasMany(Reservation,{
+    foreignKey:'reservationid',
     sourceKey:'id'
 })
 
-Task.belongsTo(Project,{
-    foreignKey:'projectid',
+Reservation.belongsTo(User,{
+    foreignKey:'reservationid',
     targetId:'id'
 
-}) */
+})
