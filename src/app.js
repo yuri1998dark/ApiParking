@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
-import './models/sequelize/User.js';
+import './models/sequelize/User.models.js';
 import './models/sequelize/Reservation.js'
 import './models/sequelize/Place.js'
 import { sequelize } from "./config/config.js";
+import { authRoutes } from "./routes/exportAllRoutes.js";
 
 
 export class Server {
@@ -20,7 +21,11 @@ export class Server {
   this.middlewares();
 
   this.dbConnection();
-  }
+  this.routes();
+  
+
+
+}
 
   middlewares() {
     // Cors
@@ -30,7 +35,7 @@ export class Server {
   }
 
   async dbConnection(){
-    await sequelize.sync({force: true,alter:true })
+    await sequelize.sync()
         .then(() => {
           console.log("Synced parkingDB.");
         })
@@ -38,6 +43,12 @@ export class Server {
           console.log("Failed to sync db: " + err.message);
         });
   }
+  routes(){
+    this.app.use(this.paths.auth, authRoutes);
+   // this.app.use(this.paths.logs, logsRoutes);
+   // this.app.use(this.paths.reservations, reservationRoutes);
+   // this.app.use(this.paths.users, userRoutes);
+}
 
   listen() {
     this.app.listen(this.port, () => {

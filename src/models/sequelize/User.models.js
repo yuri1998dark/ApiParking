@@ -3,7 +3,7 @@ import { sequelize } from "../../config/config.js";
 import { Reservation } from "./Reservation.js";
 // import { Task } from "./Task.js";
 
-export const User = sequelize.define("users", {
+ const User = sequelize.define("users", {
   id: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -44,3 +44,6 @@ Reservation.belongsTo(User,{
     targetId:'id'
 
 })
+
+
+export default User;

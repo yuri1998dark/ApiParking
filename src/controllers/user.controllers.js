@@ -1,4 +1,4 @@
-import { User } from "../models/sequelize/User.js";
+import { User } from "../models/sequelize/User.models.js";
 
 
 export const getUser= async (req, res) => {
