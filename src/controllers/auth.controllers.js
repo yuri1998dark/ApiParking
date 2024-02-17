@@ -9,7 +9,7 @@ export const register = async (req, res) => {
   const { email, password, name,phone } = req.body;
 
   try {
-    const userFound = await User.findOne({ email });
+    const userFound = await User.findOne({ where:{email}  });
     if (userFound) return res.status(400).json(["Emails already exists"]);
 
     //hash para encriptar el password
@@ -24,9 +24,9 @@ export const register = async (req, res) => {
 
     const userSaved = await newUser.save();
 
-    //console.log(userSaved);
-    const token = await createAccessToken({ id: userSaved._id });
-
+    console.log(userSaved);
+    const token = await createAccessToken({ id:userSaved.id });
+    console.log(token);
     res.cookie("token", token, { sameSite: "none" });
     res.send("Sucess");
 
@@ -49,7 +49,7 @@ export const login = async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Incorrect password" });
 
-    const token = await createAccessToken({ id: userFound._id });
+    const token = await createAccessToken({ id: userFound.id });
 
     res.cookie("token", token);
    
@@ -71,11 +71,13 @@ export const logout = (req, res) => {
 };
 
 export const profile = async (req, res) => {
-  const userFound = await User.findById(req.user.id);
+    console.log(req.user);
+    const userFound = await User.findByPk(req.user.id);
+    
   if (!userFound) return res.status(400).json({ message: "User not found" });
   res.json({
-    id: userFound._id,
-    username: userFound.username,
+    id: userFound.id,
+    username: userFound.name,
     email: userFound.email,
   });
 };
@@ -91,8 +93,8 @@ export const verifyToken = async (req, res) => {
     if (!userFound) return res.status(401).json({ message: "Unauthorized" });
 
     return res.json({
-      id: userFound._id,
-      username: userFound.username,
+      id: userFound.id,
+      username: userFound.name,
       email: userFound.email,
     });
   });

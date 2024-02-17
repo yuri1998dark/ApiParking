@@ -1,4 +1,4 @@
-function checkRole(...role) {
+export const checkRole= (...role) =>{
     return (req, res, next) => {
         const allowedRoles = ['ADMIN', 'CLIENT', 'EMPLOYEE'];
         if (allowedRoles.includes(role)) {

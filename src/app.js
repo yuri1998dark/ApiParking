@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import './models/sequelize/User.models.js';
 import './models/sequelize/Reservation.js'
 import './models/sequelize/Place.js'
@@ -12,7 +13,7 @@ export class Server {
     this.app = express();
     this.port = process.env.PORT;
     this.paths = {
-      auth: "/parking/auth",
+      auth: "/parking/auth",//Done
       logs: "/parking/logs",
       reservations: "/parking/reservations",
       users: "/parking/users",
@@ -32,6 +33,8 @@ export class Server {
     this.app.use(cors());
     // body parsing
     this.app.use(express.json());
+    // cookie parsing
+    this.app.use(cookieParser());
   }
 
   async dbConnection(){
