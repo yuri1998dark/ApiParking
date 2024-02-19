@@ -1,13 +1,13 @@
-import User from "../models/sequelize/User.models.js";
+import User from "../models/sequelize/User.model.js";
 import bcryptjs from "bcryptjs";
-import { createAccessToken } from "../lib/jwt.js";
+import { createAccessToken } from "../helpers/jwt.js";
 import jwt from "jsonwebtoken";
 
 
 export const register = async (req, res) => {
   //de la peticion extrae del body los parametros
   const { email, password, name,phone } = req.body;
-
+  
   try {
     const userFound = await User.findOne({ where:{email}  });
     if (userFound) return res.status(400).json(["Emails already exists"]);

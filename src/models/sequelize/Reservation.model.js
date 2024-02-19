@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../../config/config.js";
-// import { Task } from "./Task.js";
+import { sequelize } from "../../config/sequelize.config.js";
 
-export const Reservation = sequelize.define("reservations", {
+
+ const Reservation = sequelize.define("reservations", {
     id: {
         type: DataTypes.UUID,
         allowNull: false,
@@ -26,3 +26,6 @@ export const Reservation = sequelize.define("reservations", {
         defaultValue: 'ACTIVE'
       },
 });
+
+
+export default Reservation;

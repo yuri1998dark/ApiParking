@@ -1,9 +1,9 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../../config/config.js";
-import { Reservation } from "./Reservation.js";
+import { sequelize } from "../../config/sequelize.config.js";
+import  Reservation  from "./Reservation.model.js";
 
 
-export const Place = sequelize.define("places", {
+const Place = sequelize.define("places", {
     id: {
         type: DataTypes.UUID,
         allowNull: false,
@@ -26,3 +26,6 @@ Reservation.belongsTo(Place,{
     targetId:'id'
 
 })
+
+
+export default Place;
