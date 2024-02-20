@@ -17,7 +17,7 @@ const router = Router();
 
 router.get(
   "/",
-  [authRequired, checkRole("ADMIN", "EMPLOYEE")], //validateFields],
+  authRequired, checkRole("ADMIN", "EMPLOYEE"), //validateFields],
   getCurrentOccupancy
 );
 

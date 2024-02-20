@@ -19,9 +19,9 @@ export class Server {
       reservations: "/parking/reservations",
       users: "/parking/users",
     };
+   
     this.setNumOfPlaces();
     this.middlewares();
-
     this.dbConnection();
     this.routes();
   }

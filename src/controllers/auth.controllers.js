@@ -6,8 +6,8 @@ import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   //de la peticion extrae del body los parametros
-  const { email, password, name,phone } = req.body;
-  
+  const { email, password, name,phone,role } = req.body;
+ 
   try {
     const userFound = await User.findOne({ where:{email}  });
     if (userFound) return res.status(400).json(["Emails already exists"]);
@@ -20,6 +20,7 @@ export const register = async (req, res) => {
       email,
       password: passhash,
       phone,
+      role
     });
 
     const userSaved = await newUser.save();

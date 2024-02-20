@@ -1,95 +1,84 @@
-import { Op } from 'sequelize';
-import { logActivity } from '../LogActivity.js';
-import  Reservation  from '../../models/sequelize/Reservation.model.js';
-import  Place  from '../../models/sequelize/Place.model.js';
+import { Op, where } from "sequelize";
+import { logActivity } from "../LogActivity.js";
+import Reservation from "../../models/sequelize/Reservation.model.js";
+import Place from "../../models/sequelize/Place.model.js";
 //import { reservationRepository } from '../repositories/index.js';
 
+export const createReservation = async (UserId, body) => {
+  const { startDateTime, endDateTime, carDetails } = body;
+  console.log(UserId);
+  // Check if the startDateTime is in the past.
+  if (new Date(startDateTime) < new Date()) {
+    const error = new Error();
+    error.message = "No se puede crear una reserva en el pasado";
+    error.status = 400;
+    throw error;
+  }
 
-export const createReservation = async ( UserId, body ) => {
+  // Check if endDateTime is before startDateTime.
+  if (new Date(endDateTime) < new Date(startDateTime)) {
+    const error = new Error();
+    error.message = "endDateTime siempre debe ser después de startDateTime";
+    error.status = 400;
+    throw error;
+  }
 
-    const { startDateTime, endDateTime, carDetails } = body;
-    console.log(startDateTime);
-    console.log(endDateTime);
-    console.log(carDetails);
-    console.log(UserId);
 
-    // Check if the startDateTime is in the past.
-    if(new Date(startDateTime) < new Date()){
-      const error = new Error();
-      error.message = 'Cannot create a reservation in past';
-      error.status = 400;
-      throw error;
-    }
-    console.log("Breaking point 1")
-    // Check if endDateTime is before startDateTime.
-    if(new Date(endDateTime) < new Date(startDateTime)){
-      const error = new Error();
-      error.message = 'endDateTime always have to be after startDateTime';
-      error.status = 400;
-      throw error
-    }
-    console.log("Breaking point 2")
-    // Get the total number of Places available.
-    const totalPlaces = await Place.count();
-    let placeid = null;
-    console.log("Breaking point 3")
-    // Loop through available Places to find one without overlapping reservations.
-    for(let i = 1; i <= totalPlaces; i++){
-        const place = await Place.findOne({
-          where: {placeNumber: i}
-        })
-
-        placeid = place.id;
-        console.log("Breaking point 4")
-        // Check if there is an overlapping reservation for this Place.
-        const overlappingReservation = await Reservation.findOne({
-          where: {
-            placeid,
-            [Op.or]: [
-              {
-                startDateTime: {
-                  [Op.lt]: endDateTime,
-                },
-                endDateTime: {
-                  [Op.gt]: startDateTime,
-                },
-              },
-            ],
+  const reservations = await Reservation.findAll({
+    attributes: ["placeid"],
+    where: {
+      [Op.or]: [
+        {
+          startDateTime: {
+            [Op.lt]: endDateTime,
           },
-        });
-      
-        // If there's an overlap, reset PlaceId and continue to the next Place.
-        if (overlappingReservation) {
-          placeid = null;
-          continue;
-        }
+          endDateTime: {
+            [Op.gt]: startDateTime,
+          },
+        },
+      ],
+    },
+  });
+  
+  const reservationIds = reservations.map(reservation => reservation.placeid);
+  
+  const place = await Place.findOne({
+    where: {
+      id: {
+        [Op.notIn]: reservationIds,
+      },
+    },
+  });
 
-        // Break the loop if a Place without overlapping reservations is found.
-        break;
-    };
+  
+  console.log("---------------------------");
+  if (!place) {
+    const error = new Error();
+    error.message = "No hay plazas de aparcamiento disponibles en ese horario.";
+    error.status = 400;
+    throw error;
+  }
+  console.log("---------------------------");
 
-    if(!placeid){
-        const error = new Error();
-        error.message = 'No hay plazas de aparcamiento disponibles en ese horario.';
-        error.status = 400;
-        throw error
-    };
-    
-    const reservation = await Reservation.create({
-        UserId,
-        placeid,
-        startDateTime,
-        endDateTime,
-        carDetails
-    });
+  const reservation = await Reservation.create({
+    reservationid: UserId,
+    placeid: place.id,
+    startDateTime,
+    endDateTime,
+    carDetails,
+  });
 
-    logActivity(UserId, 'PARKING_RESERVATION');
-    return reservation;
+  logActivity(UserId, "PARKING_RESERVATION");
+  return reservation;
+  // } catch (error) {
+  console.log(error);
 
-    
-}
+  //}
 
-/* export const checkInOut = async ( UserId, id, action) => {
+  //console.log(place)
+};
+
+ export const checkInOut = async ( UserId, id, action) => {
   // This is an object that maps the actions to the corresponding status and log
   const actionMap = {
     entry: {
@@ -138,7 +127,7 @@ export const cancelReservation = async( UserId, id) => {
   logActivity(UserId, 'CANCELED_RESERVATION');
 }
 
-export const getCurrentOccupancy = async () => {
+ export const getCurrentOccupancy = async () => {
 
   const totalPlaces = await Place.count();
 
@@ -166,4 +155,4 @@ export const getCurrentOccupancy = async () => {
   }
 
   return occupancyDetails;
-} */
+} 

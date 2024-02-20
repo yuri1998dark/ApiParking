@@ -4,10 +4,10 @@ export const createPlaces = async () => {
   const numPlaces = process.env.NUM_OF_SPOTS || 20;
 
   const existsPlaces = await Place.findOne();
-
+  const placesPromise = [];
   if (!existsPlaces) {
     try {
-      const placesPromise = [];
+      
       for (let i = 1; i <= numPlaces; i++) {
         placesPromise.push(
           Place.create({
@@ -16,10 +16,13 @@ export const createPlaces = async () => {
         );
       }
       const places = await Promise.all(placesPromise);
-      console.log(places);
       console.log(`${places.length} places are ready!!`);
+ 
+     
+      
     } catch (err) {
       console.log(err);
     }
+
   }
 };
