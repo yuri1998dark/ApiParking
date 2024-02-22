@@ -37,8 +37,8 @@ router.post(
 );
 
 router.patch(
-  "/:id",
-  [authRequired, validateOwner], //validateFields,
+  '/:id',
+  [authRequired,validateOwner], //validateFields,
   cancelReservation
 );
 

@@ -1,4 +1,5 @@
 
+import { query } from 'express';
 import { error, success } from '../helpers/handleResponse.js';
 
 import "../helpers/reservations/reservations.helpers.js";
@@ -39,6 +40,7 @@ export const cancelReservation = async ( req, res ) => {
 
   const { id: UserId } = req.user;
   const { id } = req.params;
+  console.log(req.params)
 
   
   try {
