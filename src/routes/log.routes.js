@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllLogsAndCount } from '../controllers/getActivityLogs.controller.js';
+import { getActivityLogs} from '../controllers/getActivityLogs.controller.js';
 //import { validateFields } from '../middlewares/validateFields.js';
 import { authRequired } from '../middlewares/validateToken.js'; 
 import { checkRole } from '../middlewares/checkRole.js';
@@ -10,7 +10,7 @@ app.get('/', [
     authRequired,
     checkRole('ADMIN', 'EMPLOYEE')
     //validateFields
-], getAllLogsAndCount(20,0))
+], await getActivityLogs)
 
 
 export default app;

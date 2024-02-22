@@ -1,20 +1,14 @@
-import { Log } from '../models/mongoose/Log.model.js';
-import { success,error } from '../helpers/handleResponse.js';
+import { success, error } from "../helpers/handleResponse.js";
+import {
+  getAllLogsAndCount
+} from "../helpers/logs/logs.helpers.js";
 
-export const getAllLogsAndCount = async(limit, offset,res) => {
-   try {
-    
-       const[total, log] = await Promise.all([
-             Log.countDocuments(),
-             Log.find()
-                     .limit(limit)
-                     .skip(offset)
-         ])
-    success(res,{total,log},200);
-
-   } catch (error) {
-     error(res,err,500)
-   }
-
-    
-}
+export const getActivityLogs = async ( req ,res) => {
+  try {
+    const [total, logs] = await getAllLogsAndCount(20, 0);
+   
+    success(res, { total, logs },200);
+  } catch (err) {
+    error(res,err,500)
+  }
+};
