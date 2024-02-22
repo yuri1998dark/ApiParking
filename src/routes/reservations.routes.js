@@ -36,11 +36,8 @@ router.post(
   createReservation
 );
 
-router.patch(
-  '/:id',
-  [authRequired,validateOwner], //validateFields,
-  cancelReservation
-);
+router.patch('/:id',[authRequired,validateOwner],
+cancelReservation);
 
 router.patch(
   "/:action/:id",

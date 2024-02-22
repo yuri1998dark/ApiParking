@@ -1,5 +1,5 @@
 
-import { query } from 'express';
+
 import { error, success } from '../helpers/handleResponse.js';
 
 import "../helpers/reservations/reservations.helpers.js";
@@ -28,9 +28,9 @@ export const checkInOut = async (req, res) => {
   const { id, action } = req.params;
 
   try {
-    await reservationHelpers.checkInOut(UserId, id, action);
+    await reservationHelpers.checkInOut(UserId, id, action,res);
     success(res, `The action ${action} was executed successfully`, 200);
-    res.send(200)
+    
   } catch (err) {
     error(res, err, 500);
   }

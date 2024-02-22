@@ -2,6 +2,7 @@ import { Op, where } from "sequelize";
 import { logActivity } from "../LogActivity.js";
 import Reservation from "../../models/sequelize/Reservation.model.js";
 import Place from "../../models/sequelize/Place.model.js";
+import { error,success } from "../handleResponse.js";
 //import { reservationRepository } from '../repositories/index.js';
 
 export const createReservation = async (UserId, body) => {
@@ -78,7 +79,7 @@ export const createReservation = async (UserId, body) => {
   //console.log(place)
 };
 
- export const checkInOut = async ( UserId, id, action) => {
+ export const checkInOut = async ( UserId, id, action,res) => {
   // This is an object that maps the actions to the corresponding status and log
   const actionMap = {
     entry: {
@@ -95,7 +96,7 @@ export const createReservation = async (UserId, body) => {
   if (!actionMap[action]) {
     return error(res, 'Action isn\'t valid', 400);
   }
-  const reservation = await reservationRepository.getReservationById(id);
+  const reservation = await Reservation.findByPk(id);
 
   if(!reservation){
     return error(res, `Reservation was not found with id=${id}`, 404);
