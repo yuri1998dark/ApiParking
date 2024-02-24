@@ -10,12 +10,3 @@ export const getAllLogsAndCount = async (limit, offset) => {
 
 
 
-/* export const obtenerPrimerosElementos = async ( res) => {
-    try {
-        const elementos = await Log.coun.limit(20).skip(0);
-        res.json(elementos);
-    } catch (error) {
-        res.status(500).json({ message: 'Error al obtener los elementos' });
-    }
-};
- */

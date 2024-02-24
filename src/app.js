@@ -6,7 +6,7 @@ import "./models/sequelize/Reservation.model.js";
 import "./models/sequelize/Place.model.js";
 import { connectSequelize } from "./config/sequelize.config.js";
 import { connectMongo } from "./config/mongo.config.js";
-import { authRoutes, reservationsRoutes,logRoutes} from "./routes/exportAllRoutes.js";
+import { authRoutes, reservationsRoutes,logRoutes,userRoutes} from "./routes/exportAllRoutes.js";
 import { createPlaces } from "./helpers/setNumOfPlaces.js";
 
 export class Server {
@@ -14,10 +14,10 @@ export class Server {
     this.app = express();
     this.port = process.env.PORT;
     this.paths = {
-      auth: "/parking/auth", //Done
-      logs: "/parking/logs",
+      auth: "/parking/auth", //done
+      logs: "/parking/logs", //done
       reservations: "/parking/reservations", //done
-      users: "/parking/users",
+      users: "/parking/users", //done
     };
    
     this.setNumOfPlaces();
@@ -44,7 +44,7 @@ export class Server {
     this.app.use(this.paths.auth, authRoutes);
     this.app.use(this.paths.logs, logRoutes);
     this.app.use(this.paths.reservations, reservationsRoutes);
-    // this.app.use(this.paths.users, userRoutes);
+    this.app.use(this.paths.users, userRoutes);
   }
 
   async setNumOfPlaces() {

@@ -14,3 +14,10 @@ export {
 
 
 } from "./reservations.controllers.js"
+
+
+export { 
+updatedUser,
+deletedUser,
+getUsers
+} from "./users.controllers.js"
