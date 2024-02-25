@@ -111,21 +111,27 @@ export const createReservation = async (UserId, body) => {
   logActivity(UserId, log);
 }
 
-export const cancelReservation = async( UserId, id) => {
-  const reservation = await Reservation.findByPk(id);
+export const cancelReservation = async( UserId, id,res) => {
 
-  if(!reservation){
+  try {
+    
+    const reservation = await Reservation.findByPk(id)
+   
+      if( reservation.status == 'IN_PROGRESS'){
+        return error(res, `The reservation has already started, it cannot be canceled`, 400);
+      }
+  
+    reservation.status = 'CANCELED'
+  
+    await reservation.save()
+    logActivity(UserId, 'CANCELED_RESERVATION');
+    
+  } catch (err) {
     error(res, `Reservation was not found with id=${id}`, 404);
   }
+  
 
-  if( reservation.status == 'IN_PROGRESS'){
-    return error(res, `The reservation has already started, it cannot be canceled`, 400);
-  }
 
-  reservation.status = 'CANCELED'
-
-  await reservation.save()
-  logActivity(UserId, 'CANCELED_RESERVATION');
 }
 
  export const getCurrentOccupancy = async () => {

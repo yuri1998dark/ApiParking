@@ -28,7 +28,7 @@ export const updatedUser = async ( req, res ) => {
         success(res, updated1User, 200);
     
     } catch (err) {
-        error( res, `Error updating User with id=${id}`, 500 );   
+        error( res, `Error updating User with id=${id},user not found`, 500 );   
     }
 
 }
@@ -45,6 +45,6 @@ export const deletedUser = async ( req, res ) => {
             error(res, `Cannot delete User with id=${id}. Maybe User was not found`, 404 );
         }
     } catch (err) {
-        error( res, `Error updating User with id=${id}`, 500 );   
+        error( res, `Error updating User with id=${id},user not found`, 500 );   
     }
 }

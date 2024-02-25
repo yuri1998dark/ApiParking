@@ -9,7 +9,7 @@ const app = Router();
 app.get('/', [
     authRequired,
     checkRole('ADMIN', 'EMPLOYEE')
-    //validateFields
+    
 ], await getActivityLogs)
 
 

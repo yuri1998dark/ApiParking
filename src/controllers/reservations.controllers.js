@@ -28,7 +28,7 @@ export const checkInOut = async (req, res) => {
   const { id, action } = req.params;
 
   try {
-    await reservationHelpers.checkInOut(UserId, id, action,res);
+    await reservationHelpers.checkInOut(UserId, id, action);
     success(res, `The action ${action} was executed successfully`, 200);
     
   } catch (err) {
@@ -40,11 +40,12 @@ export const cancelReservation = async ( req, res ) => {
 
   const { id: UserId } = req.user;
   const { id } = req.params;
-  console.log(req.params)
+  
+  console.log(req.user)
 
   
   try {
-    await reservationHelpers.cancelReservation(UserId, id);
+    await reservationHelpers.cancelReservation(UserId, id,res);
     success(res, "Reservation was canceled successfully.", 200);
 
   } catch (err) {

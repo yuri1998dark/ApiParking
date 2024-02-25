@@ -9,21 +9,19 @@ const router = Router();
 router.get('/', [
     authRequired,
     checkRole('ADMIN', 'EMPLOYEE'),
-   // validateFields
+   
 ], getUsers);
 
 
 router.put('/:id', [
     authRequired,
-   // check('id').custom(userDoesntExist),
     checkRole('ADMIN'),
-   // validateFields
 ], updatedUser);
 
 router.delete('/:id', [
     authRequired,
     checkRole('ADMIN'),
-   // validateFields
+   
 ], deletedUser);
 
 export default router;

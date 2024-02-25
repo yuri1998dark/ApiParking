@@ -2,7 +2,6 @@ import { Router } from "express";
 
 import {
   authRequired,
-  //validateFields,
   checkRole,
   validateOwner,
 } from "../middlewares/exportAllMiddlewares.js";
@@ -12,36 +11,27 @@ import {
   getCurrentOccupancy,
   checkInOut,
 } from "../controllers/exportAllControllers.js";
+import { reservationsSchema } from "../schemas/reservations.schema.js";
+import { validateSchema,validateParamsSchema } from "../middlewares/validatorSchema.js";
+import { paramsSchema } from "../schemas/paramsId.schema.js";
+
 
 const router = Router();
 
 router.get(
   "/",
-  authRequired, checkRole("ADMIN", "EMPLOYEE"), //validateFields],
+  authRequired,
+  checkRole("ADMIN", "EMPLOYEE"),
   getCurrentOccupancy
 );
 
-router.post(
-  "/",
-  [
-    authRequired,
-    //check("startDateTime", "reservation startDateTime is required!")
-     // .not()
-     // .isEmpty(),
-   // check("endDateTime", "reservation endDateTime is required!")
-     // .not()
-     // .isEmpty()
-    //validateFields,
-  ],
-  createReservation
-);
+router.post("/", authRequired,validateSchema(reservationsSchema), createReservation);
 
-router.patch('/:id',[authRequired,validateOwner],
-cancelReservation);
+router.patch("/:id", [authRequired, validateOwner],validateParamsSchema(paramsSchema) ,cancelReservation);
 
 router.patch(
   "/:action/:id",
-  [authRequired, checkRole("ADMIN", "CLIENT") ],//validateFields],
+  [authRequired, checkRole("ADMIN", "CLIENT")],
   checkInOut
 );
 
