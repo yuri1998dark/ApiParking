@@ -1,9 +1,9 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/sequelize.config.js";
-import  Reservation  from "./Reservation.model.js";
+import Reservation from "./Reservation.model.js";
 // import { Task } from "./Task.js";
 
- const User = sequelize.define("users", {
+const User = sequelize.define("users", {
   id: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -32,18 +32,16 @@ import  Reservation  from "./Reservation.model.js";
     type: DataTypes.ENUM("ADMIN", "EMPLOYEE", "CLIENT"),
     defaultValue: "CLIENT",
   },
+},{tableName:'users'});
+
+User.hasMany(Reservation, {
+  foreignKey: "reservationid",
+  sourceKey: "id",
 });
 
-User.hasMany(Reservation,{
-    foreignKey:'reservationid',
-    sourceKey:'id'
-})
-
-Reservation.belongsTo(User,{
-    foreignKey:'reservationid',
-    targetId:'id'
-
-})
-
+Reservation.belongsTo(User, {
+  foreignKey: "reservationid",
+  targetId: "id",
+});
 
 export default User;

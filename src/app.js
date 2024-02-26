@@ -34,7 +34,7 @@ export class Server {
     // cookie parsing
     this.app.use(cookieParser());
   }
-
+    
   async dbConnection() {
     connectSequelize();
     connectMongo();

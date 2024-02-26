@@ -8,8 +8,8 @@ import * as reservationHelpers from "../helpers/reservations/reservations.helper
 
 export const createReservation = async (req, res) => {
   
-  
-  const { id: UserId,body } = req.body;
+  const {id:UserId} = req.user;
+  const {body } = req.body;
 
   
   try {

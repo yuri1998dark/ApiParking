@@ -24,8 +24,8 @@ import { sequelize } from "../../config/sequelize.config.js";
       status: {
         type: DataTypes.ENUM('ACTIVE', 'IN_PROGRESS', 'COMPLETED', 'CANCELED'), 
         defaultValue: 'ACTIVE'
-      },
-});
+      }
+},{tableName:'reservations'});
 
 
 export default Reservation;

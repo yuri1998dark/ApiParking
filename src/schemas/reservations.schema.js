@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const reservationsSchema = z.object({
-  id: z.string().uuid(),
+
 
   body: z.object({
     startDateTime: z.string().refine(
@@ -21,6 +21,6 @@ export const reservationsSchema = z.object({
       },
       { message: "El formato de fecha de fin de la reserva no es válido" }
     ),
-    carDetails: z.record(z.string()),
+    
   }),
 });

@@ -20,15 +20,15 @@ export const getUsers = async (req, res) => {
 export const updatedUser = async ( req, res ) => {
 
     const { id } = req.params;
-    console.log("-----Hola------")
-    const { id: _id, password, ...data } = req.body;
+  
+    const {  password, ...data } = req.body;
 
     try {
         const updated1User = await usersHelpers.updateUser(id, data);
         success(res, updated1User, 200);
     
     } catch (err) {
-        error( res, `Error updating User with id=${id},user not found`, 500 );   
+        error( res, `Error updating User with id=${id},user not found`, 400 );   
     }
 
 }
