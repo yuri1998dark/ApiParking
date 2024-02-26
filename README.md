@@ -24,7 +24,7 @@ The ApiParking project is a parking management system that allows you to make re
    ```
    cd ApiParking
    ```
-3. Navigate to the project directory:
+3. Inside to the project directory:
     
    ```
    npm install
